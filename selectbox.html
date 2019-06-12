@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> checkbox 추가 </title>
+<style>
+*{margin:0;padding:0}
+label{display:block}
+.checkbox_area{padding-bottom:15px}
+.box_area{overflow-x:hidden;overflow-y:auto;margin-top:15px;min-height:300px;border:1px solid #000}
+</style>
+</head>
+<body>
+<form name="checkbox_form">
+	<label for="all" class="checkbox_all"><input type="checkbox" id="all" />ALL</label>
+	<div class="checkbox_area">
+		<label for="check1"><input type="checkbox" name="check" id="check1" />체크박스1</label>
+		<label for="check2"><input type="checkbox" name="check" id="check2" />체크박스2</label>
+		<label for="check3"><input type="checkbox" name="check" id="check3" />체크박스3</label>
+		<label for="check4"><input type="checkbox" name="check" id="check4" />체크박스4</label>
+		<label for="check5"><input type="checkbox" name="check" id="check5" />체크박스5</label>
+		<label for="check6"><input type="checkbox" name="check" id="check6" />체크박스6</label>
+		<label for="check7"><input type="checkbox" name="check" id="check7" />체크박스7</label>
+		<label for="check8"><input type="checkbox" name="check" id="check8" />체크박스8</label>
+		<label for="check9"><input type="checkbox" name="check" id="check9" />체크박스9</label>
+		<label for="check10" id="aa"><input type="checkbox" name="check" id="check10" />체크박스10</label>
+	</div>
+	<button type="button" class="btnAdd">BoxAdd</button>
+	<button type="button" class="btnRemove">BoxRemove</button>
+	<div class="box_area"></div>
+</form>
+<script type="text/javascript">
+
+var _el_form = document.forms["checkbox_form"];
+var _el_checkAll = document.getElementById("all");
+var _el_checkbox = document.forms["checkbox_form"]["check"];
+var _el_btnAdd = document.getElementsByClassName("btnAdd")[0];
+var _el_btnRemove = document.getElementsByClassName("btnRemove")[0];
+var _el_boxArea = document.getElementsByClassName("box_area")[0];
+
+
+function eventListener(a,b){
+	if(_el_form.addEventListener){
+		_el_form.addEventListener("click", function(a,b){
+			test(a,b);
+		}, false);
+	} else{
+		_el_form.attachEvent("onclick", function(a,b){
+			test(a,b);
+		});
+	}
+}
+function test(a,b){
+	console.log(a + b);
+}
+
+test();
+
+var _addEvent = function(){
+	_removeEvent();
+	_el_checkAll.addEventListener("change", checkAll);
+	for(var a = 0; a < _el_checkbox.length; ++a){
+		_el_checkbox[a].addEventListener("click", function(){
+			//alert("선택");
+		},false, 0, true);
+	}
+	_el_btnAdd.addEventListener("click", boxAdd ,false);
+	_el_btnRemove.addEventListener("click", boxRemove ,false);
+}
+var _removeEvent = function(){
+	_el_checkAll.removeEventListener("change", checkAll);
+	for(var a = 0; a < _el_checkbox.length; ++a){
+		_el_checkbox[a].removeEventListener("click", function(){
+			alert("선택");
+		},false);
+	}
+	_el_btnAdd.removeEventListener("click", boxAdd, false);
+	_el_btnRemove.removeEventListener("click", boxRemove ,false);
+}
+
+function checkAll(){
+	if(_el_checkAll.checked){
+		for(var i = 0; i < _el_checkbox.length; ++i){
+			_el_checkbox[i].checked = true;
+		}
+	} else {
+		for(var i = 0; i < _el_checkbox.length; ++i){
+			_el_checkbox[i].checked = false;
+		}
+	}
+}
+function boxAdd(){
+	for(var i = 0; i < _el_checkbox.length; ++i){
+		if( _el_checkbox[i].checked ){
+			console.log(this.ParentNode);
+			this.parentNode.lastElementChild.appendChild(_el_checkbox[i].parentNode);
+		}
+	}
+}
+function boxRemove(){
+	for(var i = 0; i < _el_checkbox.length; ++i){
+		if( _el_checkbox[i].checked ){
+			console.log(this.ParentNode);
+			this.parentNode.children[1].appendChild(_el_checkbox[i].parentNode);
+		}
+	}
+}
+_addEvent();
+eventListener();
+</script>
+</body>
+</html>
